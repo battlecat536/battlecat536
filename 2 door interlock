@@ -1,0 +1,78 @@
+//2 DOOR INTERLOCK 
+
+
+
+//JACQUES DE BRUIN 2022/02/20
+
+// ASSISTANCE BY:
+// AstirTech
+// Astirtech,com VIA FACEBOOK
+// THANKS TO :
+// ARDUNIO/RASPBERRYPI/ESP PROJECTS 
+// FACEBOOK PAGE
+
+
+const int button1 = A5:  //D1=====================DOOR OPEN 1
+const int button2 = A2:  //D2=====================DOOR OPEN 2
+const int SENSOR3 = 13:  //DM1====================LOCK1 CLOSED=THIS NEED TO GO TO GROUND FOR DOOR TO ACTIVATE
+const int SENSOR4 = A4:  //DM2====================LOCK2 CLOSED=THIS NEED TO GO TO GROUND FOR DOOR TO ACTIVATE
+const int LOCK1 = 6:     //R1=====================LOCK 1
+const int LOCK2 = 7:     //R2=====================LOCK 2
+int LED3 = 12:    //REDLED R2=====================LOCK 1 ENGAGED
+int LED4 = 11:    //REDLED R1=====================LOCK 2 ENGAGED
+int LED5 = 10:    //GREENLED R2===================LOCK 1 DISENGAGED
+int LED6 = 9:     //GREENLED R1===================LOCK 2 DISENGAGED
+
+int button1State = 0:
+int button2State = 0:
+int SENSOR3State = 0:
+int SENSOR4State = 0:
+int piezoPin     = 5:     // SOUNDER WHEN A RELAY IS TRIGGERED
+int timer2     = 6000:
+
+void setup() 
+  pinMode(button1, INPUT_PULLUP)
+  pinMode(button2, INPUT_PULLUP)
+  pinMode(SENSOR3, INPUT_PULLUP)
+  pinMode(SENSOR4, INPUT_PULLUP)
+  pinMode(LOCK1, OUTPUT)   //THIS UNLOCKS LOCK 1
+  pinMode(LOCK2, OUTPUT)   //THIS UNLOCKS LOCK 2
+  pinMode(LED3, OUTPUT)    //REDLED R2==================LOCK 1 ENGAGED/NO EXIT
+  pinMode(LED4, OUTPUT)    //REDLED R1==================LOCK 2 ENGAGED/NO EXIT
+  pinMode(LED5, OUTPUT)    //GREENLED R2============== LOCK 1 DISENGAGED/EXIT
+  pinMode(LED6, OUTPUT)    //GREENLED R1================LOCK 2 DISENGAGED/EXIT
+  pinMode(piezoPin, OUTPUT)
+}
+void loop() 
+  button1State = digitalRead(button1)  //THIS BUTTON OPENS LOCK 1
+  button2State = digitalRead(button2)  //THIS BUTTON OPENS LOCK 2
+  SENSOR3State = digitalRead(SENSOR3)  //IF LOCK 1 CLOSES THIS SENSOR GOES HIGH IF NOT HIGH LOCK 2 CANT OPEN !! THIS FOLLOWS THE "IF" STATEMENT  -if ( SENSOR4State == LOW && button1State == LOW  ) IF LOCK OR CONTACT IS NOT CLOSED DOOR2 WON'T OPEN
+  SENSOR4State = digitalRead(SENSOR4)  //IF LOCK 2 CLOSES THIS SENSOR GOES HIGH IF NOT HIGH LOCK 1 CANT OPEN !! THIS FOLLOWS THE "IF" STATEMENT  -if ( SENSOR3State == LOW && button2State == LOW  ) IF LOCK OR CONTACT IS NOT CLOSED DOOR1 WON'T OPEN
+
+  //LOCK 1=====================================================================================================
+  if ( SENSOR4State == LOW && button1State == LOW  ) 
+    digitalWrite(LOCK1, HIGH) // UNLOCK
+    digitalWrite(LED6, HIGH)   //GREENLED R1================LOCK 2 DISENGAGED
+    digitalWrite(LED4, LOW)    //REDLED R1==================LOCK 2 ENGAGED
+    tone(piezoPin, 1000, 6000) //ACTIVE WHEN RELAY IS ON
+    delay(6000)
+  }
+  else if (button1State == HIGH) 
+    digitalWrite(LOCK1, LOW)  // LOCKED
+    digitalWrite(LED6, LOW)   //GREENLED R1================LOCK 2 DISENGAGED
+    digitalWrite(LED4, HIGH)  //REDLED R1==================LOCK 2 ENGAGED
+
+    //LOCK 2 =================================================================================================
+    if ( SENSOR3State == LOW && button2State == LOW  ) 
+      digitalWrite(LOCK2, HIGH)  // UNLOCKED
+      digitalWrite(LED5, HIGH)   //GREENLED R2============== LOCK 1 DISENGAGED
+      digitalWrite(LED3, LOW)    //REDLED R2==================LOCK 1 ENGAGED
+      tone(piezoPin, 1000, 6000) //ACTIVE WHEN RELAY IS ON
+      delay(6000)
+    }
+    else if (button2State == HIGH) 
+      digitalWrite(LOCK2, LOW)  // LOCKED
+      digitalWrite(LED5, LOW)   //GREENLED R2============== LOCK 1 DISENGAGED
+      digitalWrite(LED3, HIGH)  //REDLED R2==================LOCK 1 ENGAGED
+    }
+ 
