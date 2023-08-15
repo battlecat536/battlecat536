@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @battlecat536
-- 👀 I’m interested in ...Tinkering with Ardunio and general electronic tinkerer,
-- 🌱 I’m currently learning ... Very much a noob in this field at 45, every day has something new to learn.
+- 👀 I’m interested in ...Tinkering with Ardunio and a general electronic tinkerer,
+- 🌱 I’m currently learning ... Very much a noob in this field at 46, every day has something new to learn.
 - 💞️ I’m looking to collaborate on ... not sure yet but automation and control  seem to be my main attraction. 
 - 📫 How to reach me ...ddebruin536@gmail.com
 
